@@ -1,41 +1,31 @@
 {
-  "name": "Midnight DApp Dev Env",
+  "name": "Midnight Dev Environment",
+
+  // 1. Base image with Git and Node.js 22 pre-installed
   "image": "://microsoft.com",
-  
+
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "22",
-      "pnpmVersion": "10"
-    },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "version": "latest"
-    },
-    "ghcr.io/devcontainers/features/git-lfs:1": {
-      "autoPull": true
-    }
+    // 2. Activates Docker inside your container for the Midnight proof server
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    
+    // 3. Installs Git LFS into the container toolchain
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
 
-  // Runs the installation script after the container builds
-  "postCreateCommand": "bash .devcontainer/setup-midnight.sh",
+  // 4. Installs the Compact compiler and automatically links Git LFS hooks on startup
+  "postCreateCommand": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com | sh && git lfs install",
 
   "customizations": {
     "vscode": {
-      "extensions": [
-        "ms-azuretools.vscode-docker",
-        "iohk.lace"
-      ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
+        // 5. Ensures VS Code recognizes the new 'compact' compiler command
+        "terminal.integrated.env.linux": {
+          "PATH": "${env:HOME}/.compact/bin:${env:PATH}"
+        }
       }
     }
   },
 
-  // Forward default Midnight ecosystem ports to your browser/wallet
-  "forwardPorts": [3000, 6300, 8088, 9944],
-  "portsAttributes": {
-    "6300": { "label": "Midnight Proof Server", "onAutoForward": "notify" },
-    "8088": { "label": "Midnight Indexer", "onAutoForward": "notify" },
-    "9944": { "label": "Midnight Node RPC", "onAutoForward": "notify" },
-    "3000": { "label": "DApp Frontend", "onAutoForward": "openBrowser" }
-  }
+  // 6. Opens network port 6300 so your applications can contact the proof server
+  "forwardPorts": [6300]
 }
