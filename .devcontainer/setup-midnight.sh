@@ -3,6 +3,7 @@ set -e
 
 echo "=== Installing Official Compact Compiler ==="
 # Download and install the latest stable version of compact
+# Download and install the latest stable version of compactc and tool chain
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/midnightntwrk/compact/releases/latest/download/compact-installer.sh | sh -s -- -y
 
 # Symlink the binary to a global PATH location so it's accessible everywhere inside the Codespace
