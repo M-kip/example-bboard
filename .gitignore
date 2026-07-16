@@ -58,7 +58,8 @@ jspm_packages/
 *.sln
 
 # Compact
-managed/
+# Ignore all files in the managed directory
+#managed/
 
 .claude
 .midnight-expert
