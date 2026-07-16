@@ -1,0 +1,41 @@
+{
+  "name": "Midnight DApp Dev Env",
+  "image": "://microsoft.com",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22",
+      "pnpmVersion": "10"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "autoPull": true
+    }
+  },
+
+  // Runs the installation script after the container builds
+  "postCreateCommand": "bash .devcontainer/setup-midnight.sh",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "iohk.lace"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+
+  // Forward default Midnight ecosystem ports to your browser/wallet
+  "forwardPorts": [3000, 6300, 8088, 9944],
+  "portsAttributes": {
+    "6300": { "label": "Midnight Proof Server", "onAutoForward": "notify" },
+    "8088": { "label": "Midnight Indexer", "onAutoForward": "notify" },
+    "9944": { "label": "Midnight Node RPC", "onAutoForward": "notify" },
+    "3000": { "label": "DApp Frontend", "onAutoForward": "openBrowser" }
+  }
+}

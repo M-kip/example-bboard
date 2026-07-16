@@ -62,3 +62,7 @@ managed/
 
 .claude
 .midnight-expert
+
+# github session upload key
+# Valid for 24 hours, then expires. If you need to upload a new session, generate a new key.
+.github/session_upload_key
